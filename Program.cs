@@ -5,7 +5,12 @@ class Movie {
     public int Id {get; set;}
     public string Title {get; set;}
 
-    public Movie(string title) {
+    // Lager en valgfri egenskap, her en beskrivelse av filmen i Movie-objektet.
+    public string? Description {get; set;}
+
+    public Movie(string title, string? description) {
+
+        Description = description;
         Title = title;
         Id = _id++;
     }
