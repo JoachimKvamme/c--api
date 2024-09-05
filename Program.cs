@@ -36,7 +36,18 @@ internal class Program
         // UPDATE: Updates a movie with id
         app.MapPut("/movies/{Id}", (int Id) => $"Updates movie with id: {Id}");
         //DELETE: Deletes a movie with id
-        app.MapDelete("/movies/{Id}", (int Id) => $"Deletes movie with id: {Id}");
+        app.MapDelete("/movies/{Id}", (int Id, List<Movie> movies) => {
+
+            var movie = movies.Find((movie) => {
+                return movie.Id == Id;});
+            
+            if (movie == null) {
+                return Results.NotFound();
+            }
+            movies.Remove(movie);
+            return Results.Ok();
+
+        });
 
         app.MapGet("/health", () => "system healthy");
 
