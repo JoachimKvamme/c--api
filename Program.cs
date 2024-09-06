@@ -6,7 +6,11 @@ class Movie {
 
 
     // Jeg har prøvd å gjøre det sånn at Id-egenskapen konstrueres som et Guid-objekt 
-    // når det lages nye tilfeller av Movie-klassen.
+    // når det lages nye tilfeller av Movie-klassen. Dette var bare for å se om det virket, 
+    // slik jeg forstår det brukes Guid bare når man trenger å skape objekter med unike identiteter 
+    // hvor opphavet er usikkert. Her kommer alle objektene fra meg, og metoden med den statiske variabelen
+    // ville ikke ha skapt noen problemer. 
+    
     public Guid Id {get; set;}
     public string Title {get; set;}
 
