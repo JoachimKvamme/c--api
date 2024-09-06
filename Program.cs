@@ -1,8 +1,13 @@
+using Microsoft.VisualBasic;
+
 class Movie {
 
-    private static int _id = 0;
+    //private static int _id = 0;
 
-    public int Id {get; set;}
+
+    // Jeg har prøvd å gjøre det sånn at Id-egenskapen konstrueres som et Guid-objekt 
+    // når det lages nye tilfeller av Movie-klassen.
+    public Guid Id {get; set;}
     public string Title {get; set;}
 
     // Lager en valgfri egenskap, her en beskrivelse av filmen i Movie-objektet.
@@ -12,7 +17,9 @@ class Movie {
 
         Description = description;
         Title = title;
-        Id = _id++;
+
+        // Nå skapes det en Guid-id for hvert Movie-objekt, men det gjør at DELETE-funksjonen er noe tung å håndtere.
+        Id = Guid.NewGuid();
     }
 }
 
@@ -39,9 +46,9 @@ internal class Program
         });
 
         // UPDATE: Updates a movie with id
-        app.MapPut("/movies/{Id}", (int Id) => $"Updates movie with id: {Id}");
+        app.MapPut("/movies/{Id}", (Guid Id) => $"Updates movie with id: {Id}");
         //DELETE: Deletes a movie with id
-        app.MapDelete("/movies/{Id}", (int Id, List<Movie> movies) => {
+        app.MapDelete("/movies/{Id}", (Guid Id, List<Movie> movies) => {
 
             var movie = movies.Find((movie) => {
                 return movie.Id == Id;});
