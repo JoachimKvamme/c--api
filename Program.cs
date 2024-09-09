@@ -1,25 +1,5 @@
+using System.Reflection.Metadata.Ecma335;
 using Microsoft.VisualBasic;
-
-class Movie {
-
-    private static int _id = 0;
-
-    public int Id {get; set;}
-    public string Title {get; set;}
-
-    // Lager en valgfri egenskap, her en beskrivelse av filmen i Movie-objektet.
-    public string? Description {get; set;}
-
-    public Movie(string title, string? description) {
-
-        Description = description;
-        Title = title;
-
-        // Nå skapes det en Guid-id for hvert Movie-objekt, men det gjør at DELETE-funksjonen er noe tung å håndtere.
-        Id = _id++;
-    }
-}
-
 
 internal class Program
 {
@@ -32,7 +12,9 @@ internal class Program
 
 
         // READ: Get all movies
-        app.MapGet("/movies", (List<Movie> movies) => movies);
+        app.MapGet("/movies", (ImovieService movieService) =>{
+            return movieService.GetAllMovies();
+        };)
         //CREATE: Adds a new movie
         app.MapPost("/movies", (Movie? movie, List<Movie> movies) => {
             if (movie == null) {
