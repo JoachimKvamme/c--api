@@ -7,21 +7,23 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         // Registrerer en liste med Dependency Injection Container, hva nå enn det er.
-        builder.Services.AddSingleton<List<Movie>>();
+        builder.Services.AddSingleton<IMovieService, MovieService()>;
         var app = builder.Build();
 
 
         // READ: Get all movies
         app.MapGet("/movies", (ImovieService movieService) =>{
             return movieService.GetAllMovies();
-        };)
+        });
         //CREATE: Adds a new movie
-        app.MapPost("/movies", (Movie? movie, List<Movie> movies) => {
+        app.MapPost("/movies", (Movie? movie, IMovieService movieService) => {
             if (movie == null) {
                 return Results.BadRequest();
             }
-            movies.Add(movie);
-            return Results.Created();
+            var createdMovie = movieService.createdMovie(movie);
+            
+            return Results.Created($"/movie/{createdMovie.Id}", createdMovie);
+
         });
 
         // UPDATE: Updates a movie with id
